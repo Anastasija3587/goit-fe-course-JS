@@ -17,12 +17,14 @@ export default class Notepad {
       console.error(error);
     }
   }
-  findNoteById(id) {
-    return this._notes.find(note => note.id === id);
-  }
-  saveNote(note) {
-    this._notes.push(note);
-    return note;
+  async findNoteById(id) {
+    try {
+      const notes = await this.getNotes();
+      const findById = await notes.find(note => note.id === Number(id));
+      return findById;
+    } catch (error) {
+      console.error(error);
+    }
   }
   async deleteNote(id) {
     try {
@@ -32,25 +34,34 @@ export default class Notepad {
       console.error(error);
     }
   }
-  updateNoteContent(id, updatedContent) {
-    let updateNew;
-    let findIdIndex;
-    const findId = this.findNoteById(id);
-    if (findId.id === id) {
-      findIdIndex = this.notes.indexOf(findId);
-      updateNew = {
-        ...findId,
-        ...updatedContent
-      };
-      this._notes[findIdIndex] = updateNew;
+  async updateNoteContent(id, updatedContent) {
+    try {
+      let updateNew = {};
+      let findIdIndex;
+      const findId = await this.findNoteById(id);
+      if (findId.id) {
+        findIdIndex = this.notes.indexOf(findId);
+        const updateNote = await api.updateNotes(id, updatedContent);
+        updateNew = {
+          ...findId,
+          ...updateNote.data
+        };
+        this._notes[findIdIndex] = updateNew;
+      }
+      return updateNew;
+    } catch (error) {
+      console.error(error);
     }
-    return updateNew;
   }
-  updateNotePriority(id, priority) {
-    const findId = this.findNoteById(id);
-    if (findId.id === id) {
-      findId.priority = priority;
-      return findId;
+  async updateNotePriority(id, priority) {
+    try {
+      const findId = await this.findNoteById(id);
+      if (findId.id) {
+        findId.priority = priority;
+        return findId;
+      }
+    } catch (error) {
+      throw new Error("Error!!!!");
     }
   }
   async filterNotesByQuery(query) {

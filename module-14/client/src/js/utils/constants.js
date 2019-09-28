@@ -7,7 +7,8 @@ export const PRIORITY_TYPES = {
 export const NOTIFICATION_MESSAGES = {
   NOTE_DELETED_SUCCESS: "Заметка успешно удалена",
   NOTE_ADDED_SUCCESS: "Заметка успешно добавлена 🎉",
-  EDITOR_FIELDS_EMPTY: "Заполните поля редактора"
+  EDITOR_FIELDS_EMPTY: "Заполните поля редактора",
+  NOTE_UPDATED_SUCCESS: "Заметка успешно отредактирована 🎉"
 };
 
 export const NOTE_ACTIONS = {
