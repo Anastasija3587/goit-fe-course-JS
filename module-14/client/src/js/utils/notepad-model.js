@@ -4,6 +4,7 @@ import * as api from "../services/api";
 export default class Notepad {
   constructor(notes = []) {
     this._notes = notes;
+    this.id;
   }
   get notes() {
     return this._notes;
@@ -97,5 +98,11 @@ export default class Notepad {
     } catch (error) {
       console.error(error);
     }
+  }
+  getId(idUpdate) {
+    this.id = idUpdate;
+  }
+  throwId() {
+    return this.id;
   }
 }
